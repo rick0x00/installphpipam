@@ -143,6 +143,9 @@ echo '
 echo "$underline"
 
 echo "$hash"
+echo "Please use your web browser to access address."
+echo "Connect to: https://$(hostname -I)"
+echo "$hash"
 echo "Your default credentials to login page is:
 Username: admin
 Password: ipamadmin"
