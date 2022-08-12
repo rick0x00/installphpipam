@@ -119,6 +119,29 @@ sed -i '3 iSET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;' /var/www/html/phpipam/
 # if the above line is not added to the SCHEMA.sql file, the import will fail!
 mysql -u root -p phpipam < /var/www/html/phpipam/db/SCHEMA.sql
 
+echo "$underline"
+echo '
+                   ___                                        
+                  /\_ \
+ __  __  __     __\//\ \     ___    ___     ___ ___      __   
+/\ \/\ \/\ \  / __ \\ \ \   / ___\ / __ \ /  __  __ \  / __ \
+\ \ \_/ \_/ \/\  __/ \_\ \_/\ \__//\ \L\ \/\ \/\ \/\ \/\  __/ 
+ \ \___x___/ \ \____\/\____\ \____\ \____/\ \_\ \_\ \_\ \____\
+  \/__//__/   \/____/\/____/\/____/\/___/  \/_/\/_/\/_/\/____/
+                         _____    
+                        |_   _|__ 
+                          | |/ _ \
+                          |_|\___/
+                __          ________  ___    __  ___
+         ____  / /_  ____  /  _/ __ \/   |  /  |/  /
+        / __ \/ __ \/ __ \ / // /_/ / /| | / /|_/ / 
+       / /_/ / / / / /_/ // // ____/ ___ |/ /  / /  
+      / .___/_/ /_/ .___/___/_/   /_/  |_/_/  /_/   
+     /_/         /_/                                
+
+'
+echo "$underline"
+
 echo "$hash"
 echo "Your default credentials to login page is:
 Username: admin
