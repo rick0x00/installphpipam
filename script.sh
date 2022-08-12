@@ -53,7 +53,7 @@ apt install -y apache2 apache2-utils
 echo "MariaDB and Mysql"
 apt install -y mariadb-server mariadb-client 
 echo "PHP and PHP modules"
-apt install -y php php-common php-mysql php-gmp php-crypt-gpg php-xml php-json php-cli php-mbstring php-pearphp-curl php-snmp php-imapphp-gd php-intl php-apcu php-pspell php-tidy php-xmlrpc php-ldap php-fpm php-file-iterator libapache2-mod-php
+apt install -y php php-common php-mysql php-gmp php-crypt-gpg php-xml php-json php-cli php-mbstring php-pear php-curl php-snmp php-imap php-gd php-intl php-apcu php-pspell php-tidy php-xmlrpc php-ldap php-fpm php-file-iterator libapache2-mod-php
 
 echo "$hash"
 echo "Download phpIPAM from github repository"
