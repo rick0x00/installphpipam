@@ -16,7 +16,7 @@
 
 underline="________________________________________________________________";
 equal="================================================================";
-hash="################################################################";
+number_sign="################################################################";
 plus="++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
 bigtext_install='                  _           _        _ _ 
@@ -69,7 +69,7 @@ update_upgrade_autoremove(){
 }
 
 install_requirements(){
-    echo "$hash"
+    echo "$number_sign"
     echo "Install Requirements"
     echo "More Information in official site: https://phpipam.net/documents/installation/"
     echo "Generic tools"
@@ -83,13 +83,13 @@ install_requirements(){
 }
 
 download_phpIPAM(){
-    echo "$hash"
+    echo "$number_sign"
     echo "Download phpIPAM from github repository"
     git clone --recursive https://github.com/phpipam/phpipam.git /var/www/html/phpipam
 }
 
 copy_phpIPAM_configurations(){
-    echo "$hash"
+    echo "$number_sign"
     echo "Copy phpIPAM configurations"
     cd /var/www/html/phpipam
     cp config.dist.php config.php
@@ -98,7 +98,7 @@ copy_phpIPAM_configurations(){
 }
 
 configure_mariaDB(){
-    echo "$hash"
+    echo "$number_sign"
     echo "Configure MariaDB Database Server"
     systemctl enable --now mariadb
     #  Enables to improve the security of MariaDB
@@ -106,7 +106,7 @@ configure_mariaDB(){
 }
 
 create_database(){
-    echo "$hash"
+    echo "$number_sign"
     echo "Create DATABASE from phpIPAM"
     mysql -e "CREATE DATABASE phpipam;"
     mysql -e "GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY 'phpipamadmin';"
@@ -114,7 +114,7 @@ create_database(){
 }
 
 configure_apache(){
-    echo "$hash"
+    echo "$number_sign"
     echo "Configure Apache for phpIPAM"
     cd /etc/apache2/sites-enabled/
     mv 000-default.conf 000-default.conf.bck
@@ -149,7 +149,7 @@ configure_apache(){
 }
 
 import_SCHEMAsql(){
-    echo "$hash"
+    echo "$number_sign"
     echo "Import SCHEMA.sql"
     # fixes the error before import SCHEMA.sql to DATABASE
     sed -i '3 iSET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;' /var/www/html/phpipam/db/SCHEMA.sql
@@ -158,14 +158,14 @@ import_SCHEMAsql(){
 }
 
 user_instruction(){
-    echo "$hash"
+    echo "$number_sign"
     echo "Please use your web browser to access address."
     echo "Connect to: http://$(hostname -I)"
-    echo "$hash"
+    echo "$number_sign"
     echo "Your default credentials to login page is:
     Username: admin
     Password: ipamadmin"
-    echo "$hash"
+    echo "$number_sign"
 }
 
 # =============================================================
