@@ -148,7 +148,7 @@ configure_apache(){
     systemctl restart apache2
 }
 
-import_squema.sql(){
+import_SCHEMAsql(){
     echo "$hash"
     echo "Import SCHEMA.sql"
     # fixes the error before import SCHEMA.sql to DATABASE
@@ -186,7 +186,7 @@ create_database;
 
 configure_apache;
 
-import_squema.sql;
+import_SCHEMAsql;
 
 farewell;
 
