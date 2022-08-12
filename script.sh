@@ -102,7 +102,19 @@ configure_mariaDB(){
     echo "Configure MariaDB Database Server"
     systemctl enable --now mariadb
     #  Enables to improve the security of MariaDB
-    mysql_secure_installation
+    #mysql_secure_installation
+    # Automating `mysql_secure_installation`
+    # Setting the database root password
+    mysql -e "UPDATE mysql.user SET Password=PASSWORD('phpipamadmin') WHERE User='root';"
+    # Delete anonymous users
+    mysql -e "DELETE FROM mysql.user WHERE User='';"
+    # Ensure the root user can not log in remotely
+    mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
+    # Remove the test database
+    mysql -e "DROP DATABASE test;"
+    mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';"
+    # Flush the privileges tables
+    mysql -e "FLUSH PRIVILEGES;"
 }
 
 create_database(){
