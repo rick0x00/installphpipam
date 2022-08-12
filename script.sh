@@ -90,8 +90,8 @@ echo '
 <VirtualHost *:80>
     ServerAdmin webmaster@local.com
     DocumentRoot "/var/www/html/phpipam"
-    ServerName phpipam.local.com
-    ServerAlias www.phpipam.local.com
+    ServerName ipam.local.com
+    ServerAlias www.ipam.local.com
     <Directory "/var/www/html/phpipam">
         Options Indexes FollowSymLinks
         AllowOverride All
