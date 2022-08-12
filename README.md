@@ -1,9 +1,7 @@
-# install phpipam
-script to automate phpipam server install
-
+# Install phpIPAM
+script to simplify phpIPAM installation
 ---
-### Install phpIPAM
-Remote script execution command
+Execution command
 - Install phpIPAM via wget
 ```shell
 sh -c "$(wget https://raw.githubusercontent.com/rick0x00/installphpipam/master/script.sh -O -)"
