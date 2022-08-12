@@ -20,19 +20,19 @@ hash="################################################################";
 plus="++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
 echo "
+          _           _        _ _ 
+         (_)_ __  ___| |_ __ _| | |
+         | |  _ \/ __| __/ _  | | |
+         | | | | \__ \ || (_| | | |
+         |_|_| |_|___/\__\__,_|_|_|
            __          ________  ___    __  ___
     ____  / /_  ____  /  _/ __ \/   |  /  |/  /
    / __ \/ __ \/ __ \ / // /_/ / /| | / /|_/ / 
   / /_/ / / / / /_/ // // ____/ ___ |/ /  / /  
  / .___/_/ /_/ .___/___/_/   /_/  |_/_/  /_/   
-/_/         /_/                                "
-echo "          _           _        _ _ 
-         (_)_ __  ___| |_ __ _| | |
-         | |  _ \/ __| __/ _  | | |
-         | | | | \__ \ || (_| | | |
-         |_|_| |_|___/\__\__,_|_|_|
-                           
+/_/         /_/                                
 "
+
 
 echo "$hash"
 apt update
@@ -44,7 +44,6 @@ apt install -y sudo vim git apache2 apache2-utils mariadb-server mariadb-client 
 
 
 echo "$hash"
-
 git clone --recursive https://github.com/phpipam/phpipam.git /var/www/html/phpipam
 cd /var/www/html/phpipam
 cp config.dist.php config.php
@@ -59,6 +58,7 @@ mysql_secure_installation
 echo "$hash"
 
 #mysqladmin -u root password phpipamadmin
+
 #mysql -u root -p
 #CREATE DATABASE phpipam;
 #GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY 'phpipamadmin';
@@ -67,12 +67,11 @@ echo "$hash"
 
 mysql -e "CREATE DATABASE phpipam;"
 mysql -e "GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY 'phpipamadmin';"
-mysql -e "FLUSH PRIVILEGES"
+mysql -e "FLUSH PRIVILEGES;"
 
 
 
 echo "$hash"
-
 cd /etc/apache2/sites-enabled/
 mv 000-default.conf 000-default.conf.bak
 #vim /etc/apache2/sites-enabled/phpipam.conf
@@ -80,7 +79,8 @@ mv 000-default.conf 000-default.conf.bak
 
 echo '
 <VirtualHost *:80>
-    ServerAdmin admin@local.com
+    ServerAdmin webmaster@local.com
+    DocumentRoot "/var/www/html/phpipam"
     ServerName ipam.local.com
     ServerAlias www.ipam.local.com
     <Directory "/var/www/html/phpipam">
@@ -101,13 +101,11 @@ sudo a2enmod rewrite
 
 systemctl restart apache2
 
-sed -i '3 iSET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;' /var/www/html/phpipam/db/SCHEMA.sql
 
+sed -i '3 iSET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;' /var/www/html/phpipam/db/SCHEMA.sql
 mysql -u root -p phpipam < /var/www/html/phpipam/db/SCHEMA.sql
 
 echo "your default credentials Username: admin and Password: ipamadmin"
-
-sed -i '1 iSET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;'
 
 #echo "ipam.local.com" >> /etc/hosts
 echo "$hash"
