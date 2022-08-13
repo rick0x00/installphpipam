@@ -117,12 +117,12 @@ configure_mariaDB(){
     #mysql -e "FLUSH PRIVILEGES;"
     # EOF(end-of-file) IS ALTERNATIVE METHOD, MORE VERBOSE
     mysql --user=root << EOF
-        mysql -e "UPDATE mysql.user SET Password=PASSWORD('phpipamadmin') WHERE User='root';
-        mysql -e "DELETE FROM mysql.user WHERE User='';
-        mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
-        mysql -e "DROP DATABASE IF EXISTS test;"
-        mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';
-        mysql -e "FLUSH PRIVILEGES;
+        UPDATE mysql.user SET Password=PASSWORD('phpipamadmin') WHERE User='root';
+        DELETE FROM mysql.user WHERE User='';
+        DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+        DROP DATABASE IF EXISTS test;
+        DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';
+        FLUSH PRIVILEGES;
 EOF
 }
 
