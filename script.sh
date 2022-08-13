@@ -105,24 +105,39 @@ configure_mariaDB(){
     #mysql_secure_installation
     # Automating `mysql_secure_installation`
     # Setting the database root password
-    mysql -e "UPDATE mysql.user SET Password=PASSWORD('phpipamadmin') WHERE User='root';"
+    #mysql -e "UPDATE mysql.user SET Password=PASSWORD('phpipamadmin') WHERE User='root';"
     # Delete anonymous users
-    mysql -e "DELETE FROM mysql.user WHERE User='';"
+    #mysql -e "DELETE FROM mysql.user WHERE User='';"
     # Ensure the root user can not log in remotely
-    mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
+    #mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
     # Remove the test database
-    mysql -e "DROP DATABASE IF EXISTS test;"
-    mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';"
+    #mysql -e "DROP DATABASE IF EXISTS test;"
+    #mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';"
     # Flush the privileges tables
-    mysql -e "FLUSH PRIVILEGES;"
+    #mysql -e "FLUSH PRIVILEGES;"
+    # EOF(end-of-file) IS ALTERNATIVE METHOD, MORE VERBOSE
+    mysql --user=root << EOF
+        mysql -e "UPDATE mysql.user SET Password=PASSWORD('phpipamadmin') WHERE User='root';
+        mysql -e "DELETE FROM mysql.user WHERE User='';
+        mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+        mysql -e "DROP DATABASE IF EXISTS test;"
+        mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';
+        mysql -e "FLUSH PRIVILEGES;
+EOF
 }
 
 create_database(){
     echo "$number_sign"
     echo "Create DATABASE from phpIPAM"
-    mysql -e "CREATE DATABASE phpipam;"
-    mysql -e "GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY 'phpipamadmin';"
-    mysql -e "FLUSH PRIVILEGES;"
+    #mysql -e "CREATE DATABASE phpipam;"
+    #mysql -e "GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY 'phpipamadmin';"
+    #mysql -e "FLUSH PRIVILEGES;"
+    # EOF(end-of-file) IS ALTERNATIVE METHOD, MORE VERBOSE
+    mysql --user=root << EOF
+        CREATE DATABASE phpipam;
+        GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY 'phpipamadmin';
+        FLUSH PRIVILEGES;
+EOF
 }
 
 configure_apache(){
