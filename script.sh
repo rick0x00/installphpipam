@@ -105,42 +105,42 @@ configure_mariaDB(){
     #mysql_secure_installation
     # Automating `mysql_secure_installation`
     # Setting the database root password
-    #mysql -e "SET PASSWORD FOR 'root'@localhost = PASSWORD("phpipamadmin");"
+    mysql -e "SET PASSWORD FOR 'root'@localhost = PASSWORD("phpipamadmin");"
     # Make sure that NOBODY can access the server without a password
-    #mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'phpipamadmin';"
+    mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'phpipamadmin';"
     # Delete anonymous users
-    #mysql -e "DELETE FROM mysql.user WHERE User='';"
+    mysql -e "DELETE FROM mysql.user WHERE User='';"
     # disallow remote login for root
-    #mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
+    mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
     # Remove the test database
-    #mysql -e "DROP DATABASE IF EXISTS test;"
-    #mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';"
+    mysql -e "DROP DATABASE IF EXISTS test;"
+    mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';"
     # Make our changes take effect
-    #mysql -e "FLUSH PRIVILEGES;"
+    mysql -e "FLUSH PRIVILEGES;"
     # EOF(end-of-file) IS ALTERNATIVE METHOD, MORE VERBOSE
-    mysql --user=root << EOF
-        SET PASSWORD FOR 'root'@localhost = PASSWORD("phpipamadmin");
-        ALTER USER 'root'@'localhost' IDENTIFIED BY 'phpipamadmin';
-        DELETE FROM mysql.user WHERE User='';
-        DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
-        DROP DATABASE IF EXISTS test;
-        DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';
-        FLUSH PRIVILEGES;
-EOF
+    #mysql --user=root << EOF
+    #    SET PASSWORD FOR 'root'@localhost = PASSWORD("phpipamadmin");
+    #    ALTER USER 'root'@'localhost' IDENTIFIED BY 'phpipamadmin';
+    #    DELETE FROM mysql.user WHERE User='';
+    #    DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+    #    DROP DATABASE IF EXISTS test;
+    #    DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';
+    #    FLUSH PRIVILEGES;
+    #EOF
 }
 
 create_database(){
     echo "$number_sign"
     echo "Create DATABASE from phpIPAM"
-    #mysql -e "CREATE DATABASE phpipam;"
-    #mysql -e "GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY 'phpipamadmin';"
-    #mysql -e "FLUSH PRIVILEGES;"
-    # EOF(end-of-file) IS ALTERNATIVE METHOD, MORE VERBOSE
-    mysql --user=root << EOF
-        CREATE DATABASE phpipam;
-        GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY 'phpipamadmin';
-        FLUSH PRIVILEGES;
-EOF
+    mysql -e "CREATE DATABASE phpipam;"
+    mysql -e "GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY 'phpipamadmin';"
+    mysql -e "FLUSH PRIVILEGES;"
+    # EOF(end-of-file) IS ALTERNATIVE METHOD
+    #mysql --user=root << EOF
+    #    CREATE DATABASE phpipam;
+    #    GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY 'phpipamadmin';
+    #    FLUSH PRIVILEGES;
+    #EOF
 }
 
 configure_apache(){
