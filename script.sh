@@ -111,7 +111,7 @@ configure_mariaDB(){
     # Ensure the root user can not log in remotely
     mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
     # Remove the test database
-    mysql -e "DROP DATABASE test;"
+    mysql -e "DROP DATABASE IF EXISTS test;"
     mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';"
     # Flush the privileges tables
     mysql -e "FLUSH PRIVILEGES;"
@@ -166,7 +166,7 @@ import_SCHEMAsql(){
     # fixes the error before import SCHEMA.sql to DATABASE
     sed -i '3 iSET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;' /var/www/html/phpipam/db/SCHEMA.sql
     # if the above line is not added to the SCHEMA.sql file, the import will fail!
-    mysql -u root -p phpipam < /var/www/html/phpipam/db/SCHEMA.sql
+    mysql -u root -p"phpipamadmin" phpipam < /var/www/html/phpipam/db/SCHEMA.sql
 }
 
 user_instruction(){
