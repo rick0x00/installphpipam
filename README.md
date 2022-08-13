@@ -11,3 +11,6 @@ sh -c "$(wget https://raw.githubusercontent.com/rick0x00/installphpipam/master/s
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/rick0x00/installphpipam/master/script.sh)"
 
 ```
+
+![install phpIPAM](./DOCUMENTS/install_phpIPAM.png)
+![welcome to phpIPAM](./DOCUMENTS/welcome_to_phpIPAM.png)
