@@ -71,6 +71,8 @@ Read_CheckPasswdDBphpIPAM(){
 }
 
 request_PasswdDBphpIPAM(){
+    # Request password to phpIPAM database
+    echo "$number_sign"
     while true ; do
         echo "$underline"
         echo "Inform password for DATABASE phpIPAM configuration!";
