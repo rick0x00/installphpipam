@@ -186,7 +186,7 @@ copy_phpIPAM_configurations(){
     echo "$number_sign"
     echo "Copy phpIPAM configurations"
     echo "$plus"
-    cd /var/www/phpipam
+    #cd /var/www/phpipam
     #cp config.dist.php config.php
     # You can change phpipam default settings
     #vim config.php
@@ -247,8 +247,8 @@ configure_apache(){
     echo "$number_sign"
     echo "Configure Apache for phpIPAM"
     echo "$plus"
-    cd /etc/apache2/sites-enabled/
-    mv 000-default.conf 000-default.conf.bck
+    #cd /etc/apache2/sites-enabled/
+    mv /etc/apache2/sites-enabled/000-default.conf /etc/apache2/sites-enabled/000-default.conf.bck
     # create the virtual host for phpIPAM
     #vim /etc/apache2/sites-enabled/phpipam.conf
     echo '
