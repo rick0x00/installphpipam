@@ -104,6 +104,7 @@ request_PasswdDBphpIPAM(){
 update_upgrade_autoremove(){
     echo "$hash"
     echo "Update and Upgrade Operational System"
+    echo "$plus"
     apt update
     apt upgrade -y
     apt autoremove -y 
@@ -113,19 +114,28 @@ install_requirements(){
     echo "$number_sign"
     echo "Install Requirements"
     echo "More Information in official site: https://phpipam.net/documents/installation/"
+    echo "$plus"
     echo "Generic tools"
+    echo "$plus"
     apt install -y sudo vim git 
+    echo "$plus"
     echo "Apache2"
+    echo "$plus"
     apt install -y apache2 apache2-utils 
+    echo "$plus"
     echo "MariaDB and Mysql"
-    apt install -y mariadb-server mariadb-client 
+    echo "$plus"
+    apt install -y mariadb-server mariadb-client
+    echo "$plus"
     echo "PHP and PHP modules"
+    echo "$plus"
     apt install -y php php-common php-mysql php-gmp php-crypt-gpg php-xml php-json php-cli php-mbstring php-pear php-curl php-snmp php-imap php-gd php-intl php-apcu php-pspell php-tidy php-xmlrpc php-ldap php-fpm php-file-iterator libapache2-mod-php
 }
 
 download_phpIPAM(){
     echo "$number_sign"
     echo "Download phpIPAM from github repository"
+    echo "$plus"
     git clone --recursive https://github.com/phpipam/phpipam.git /var/www/phpipam
     cd /var/www/phpipam
     git checkout 1.5
@@ -135,6 +145,7 @@ download_phpIPAM(){
 copy_phpIPAM_configurations(){
     echo "$number_sign"
     echo "Copy phpIPAM configurations"
+    echo "$plus"
     cd /var/www/phpipam
     cp config.dist.php config.php
     # You can change phpipam default settings
@@ -144,6 +155,7 @@ copy_phpIPAM_configurations(){
 configure_mariaDB(){
     echo "$number_sign"
     echo "Configure MariaDB Database Server"
+    echo "$plus"
     systemctl enable --now mariadb
     #  Enables to improve the security of MariaDB
     #mysql_secure_installation
@@ -176,6 +188,7 @@ configure_mariaDB(){
 create_database(){
     echo "$number_sign"
     echo "Create DATABASE from phpIPAM"
+    echo "$plus"
     mysql -e "CREATE DATABASE phpipam;"
     mysql -e "GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY '$PasswdDBphpIPAM';"
     mysql -e "FLUSH PRIVILEGES;"
@@ -190,6 +203,7 @@ create_database(){
 configure_apache(){
     echo "$number_sign"
     echo "Configure Apache for phpIPAM"
+    echo "$plus"
     cd /etc/apache2/sites-enabled/
     mv 000-default.conf 000-default.conf.bck
     # create the virtual host for phpIPAM
@@ -212,19 +226,26 @@ configure_apache(){
     # replace phpipam.local.com with your FQDN!
     chown -R www-data:www-data /var/www/
 
+    echo "$plus"
     echo "Check syntax of the file"
+    echo "$plus"
     sudo apachectl -t
 
+    echo "$plus"
     echo "Enable the rewrite module for Apache"
+    echo "$plus"
     sudo a2enmod rewrite
 
+    echo "$plus"
     echo "Restart Apache"
+    echo "$plus"
     systemctl restart apache2
 }
 
 import_SCHEMAsql(){
     echo "$number_sign"
     echo "Import SCHEMA.sql"
+    echo "$plus"
     # fixes the error before import SCHEMA.sql to DATABASE
     sed -i '3 iSET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;' /var/www/phpipam/db/SCHEMA.sql
     # if the above line is not added to the SCHEMA.sql file, the import will fail!
@@ -245,6 +266,8 @@ user_instruction(){
 # =============================================================
 
 presentation;
+
+request_PasswdDBphpIPAM;
 
 update_upgrade_autoremove;
 
