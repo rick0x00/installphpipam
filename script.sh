@@ -100,6 +100,36 @@ request_PasswdDBphpIPAM(){
     done
 }
 
+Request_Import_SCHEMAsql(){
+    # funtion to choice import SCHEMA.sql from phpIPAM to DATABASE
+    echo "$number_sign"
+    while true ; do
+        echo "$underline"
+        read -p "You want to import SCHEMA.sql from phpIPAM to DATABASE? [Y/y/N/n] " ChoiceImportSCHEMAsql
+        echo "$underline"
+        if [ -z $ChoiceImportSCHEMAsql ]; then
+            ChoiceImportSCHEMAsql="Y"
+            echo "$plus"
+            echo "Valid Option, import SCHEMA.sql from phpIPAM to DATABASE, lets go!"
+            echo "$plus"
+            break;
+        elif [ $ChoiceImportSCHEMAsql = "y" -o $ChoiceImportSCHEMAsql = "y" ]; then
+            echo "$plus"
+            echo "Valid Option, import SCHEMA.sql from phpIPAM to DATABASE, lets go!"
+            echo "$plus"
+            break;
+        elif [ $ChoiceImportSCHEMAsql = "N" -o $ChoiceImportSCHEMAsql = "n" ]; then
+            echo "$plus"
+            echo "Valid Option, do not import SCHEMA.sql from phpIPAM to DATABASE"
+            echo "$plus"
+            break;
+        else
+            echo "$plus"
+            echo "Invalid Option, try again!"
+            echo "$plus"
+        fi
+    done
+}
 
 update_upgrade_autoremove(){
     echo "$hash"
@@ -243,13 +273,19 @@ configure_apache(){
 }
 
 import_SCHEMAsql(){
-    echo "$number_sign"
-    echo "Import SCHEMA.sql"
-    echo "$plus"
-    # fixes the error before import SCHEMA.sql to DATABASE
-    sed -i '3 iSET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;' /var/www/phpipam/db/SCHEMA.sql
-    # if the above line is not added to the SCHEMA.sql file, the import will fail!
-    mysql -u root -p"$PasswdDBphpIPAM" phpipam < /var/www/phpipam/db/SCHEMA.sql
+    if [ $ChoiceImportSCHEMAsql = "Y" -o $ChoiceImportSCHEMAsql = "y" ]; then
+        echo "$number_sign"
+        echo "Import SCHEMA.sql"
+        echo "$plus"
+        # fixes the error before import SCHEMA.sql to DATABASE
+        sed -i '3 iSET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;' /var/www/phpipam/db/SCHEMA.sql
+        # if the above line is not added to the SCHEMA.sql file, the import will fail!
+        mysql -u root -p"$PasswdDBphpIPAM" phpipam < /var/www/phpipam/db/SCHEMA.sql
+    elif [ $ChoiceImportSCHEMAsql = "N" -o $ChoiceImportSCHEMAsql = "n" ]; then
+        echo "$number_sign"
+        echo "Not Imported SCHEMA.sql"
+        echo "$plus"
+    fi
 }
 
 user_instruction(){
@@ -268,6 +304,8 @@ user_instruction(){
 presentation;
 
 request_PasswdDBphpIPAM;
+
+Request_Import_SCHEMAsql;
 
 update_upgrade_autoremove;
 
