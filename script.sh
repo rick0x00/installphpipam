@@ -60,24 +60,43 @@ farewell(){
     echo "$underline"
 }
 
+Read_PasswdDBphpIPAM(){
+    read -p "Inform Password: " -s PasswdDBphpIPAM
+    echo "";
+}
+
+Read_CheckPasswdDBphpIPAM(){
+    read -p "Confirm Password: " -s CheckPasswdDBphpIPAM
+    echo "";
+}
+
 request_PasswdDBphpIPAM(){
-    echo "Inform password for DATABASE phpIPAM configuration!";
-    echo "Or Press <ENTER> to set password as 'phpipamadmin'";
     while true ; do
-        $(read -p "Inform Password: " -s PasswdDBphpIPAM;)
-        echo "";
+        echo "$underline"
+        echo "Inform password for DATABASE phpIPAM configuration!";
+        echo "Or Press <ENTER> to set password as 'phpipamadmin'";
+        echo "$underline"
+        Read_PasswdDBphpIPAM;
         if [ -z $PasswdDBphpIPAM ]; then
             PasswdDBphpIPAM="phpipamadmin";
             echo "Password defined to 'phpipamadmin'";
+            echo "$underline"
             break;
         fi
-        $(read -p "Confirm Password: " -s CheckPasswdDBphpIPAM;)
-        echo "";
-        if [ $PasswdDBphpIPAM = $CheckPasswdDBphpIPAM ]; then
+        Read_CheckPasswdDBphpIPAM;
+        if [ -z $CheckPasswdDBphpIPAM ]; then
+            echo "$plus"
+            echo "Passwords do not match, try again!"
+            echo "$plus"
+        elif [ $PasswdDBphpIPAM = $CheckPasswdDBphpIPAM ]; then
             echo "Password set successfully!";
+            echo "$underline"
             break;
+        else
+            echo "$plus"
+            echo "Passwords do not match, try again!"
+            echo "$plus"
         fi
-        echo "Passwords do not match, try again!"
     done
 }
 
