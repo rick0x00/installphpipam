@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # =============================================================
 # Script created date: 10 ago 2022
@@ -69,12 +69,12 @@ root_check(){
 }
 
 Read_PasswdDBphpIPAM(){
-    read -p "Inform Password: " -s PasswdDBphpIPAM
+    read -p "Inform Password: " PasswdDBphpIPAM
     echo "";
 }
 
 Read_CheckPasswdDBphpIPAM(){
-    read -p "Confirm Password: " -s CheckPasswdDBphpIPAM
+    read -p "Confirm Password: " CheckPasswdDBphpIPAM
     echo "";
 }
 
