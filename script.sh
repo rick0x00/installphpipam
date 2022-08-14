@@ -52,13 +52,6 @@ presentation(){
     echo "$underline"
 }
 
-farewell(){
-    echo "$underline"
-    echo "$bigtext_welcome"
-    echo "$bigtext_to"
-    echo "$bigtext_phpipam"
-    echo "$underline"
-}
 
 Read_PasswdDBphpIPAM(){
     read -p "Inform Password: " -s PasswdDBphpIPAM
@@ -299,6 +292,14 @@ user_instruction(){
     Username: admin
     Password: ipamadmin"
     echo "$number_sign"
+}
+
+farewell(){
+    echo "$underline"
+    echo "$bigtext_welcome"
+    echo "$bigtext_to"
+    echo "$bigtext_phpipam"
+    echo "$underline"
 }
 
 # =============================================================
