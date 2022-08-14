@@ -187,9 +187,12 @@ copy_phpIPAM_configurations(){
     echo "Copy phpIPAM configurations"
     echo "$plus"
     cd /var/www/phpipam
-    cp config.dist.php config.php
+    #cp config.dist.php config.php
     # You can change phpipam default settings
     #vim config.php
+    # edit password in phpIPAM config file
+    sed "s/phpipamadmin/$PasswdDBphpIPAM/" /var/www/phpipam/config.dist.php > /var/www/phpipam/config.php 
+
 }
 
 configure_mariaDB(){
