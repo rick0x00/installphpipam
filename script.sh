@@ -45,6 +45,14 @@ bigtext_to='                         _____
 # =============================================================
 # define functions
 
+processing_error() {
+    echo "$equal"
+    echo ""
+    echo "$*"
+    echo ""
+    echo "$equal"
+}
+
 presentation(){
     echo "$underline"
     echo "$bigtext_install"
@@ -52,6 +60,13 @@ presentation(){
     echo "$underline"
 }
 
+root_check(){
+    uid=$(id -u)
+    if [ $uid -ne 0 ]; then
+        processing_error "Please use ROOT user for run the script."
+        exit 1
+    fi
+}
 
 Read_PasswdDBphpIPAM(){
     read -p "Inform Password: " -s PasswdDBphpIPAM
@@ -305,6 +320,8 @@ farewell(){
 # =============================================================
 
 presentation;
+
+root_check;
 
 request_PasswdDBphpIPAM;
 
