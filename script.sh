@@ -60,6 +60,28 @@ farewell(){
     echo "$underline"
 }
 
+request_PasswdDBphpIPAM(){
+    echo "Inform password for DATABASE phpIPAM configuration!";
+    echo "Or Press <ENTER> to set password as 'phpipamadmin'";
+    while true ; do
+        $(read -p "Inform Password: " -s PasswdDBphpIPAM;)
+        echo "";
+        if [ -z $PasswdDBphpIPAM ]; then
+            PasswdDBphpIPAM="phpipamadmin";
+            echo "Password defined to 'phpipamadmin'";
+            break;
+        fi
+        $(read -p "Confirm Password: " -s CheckPasswdDBphpIPAM;)
+        echo "";
+        if [ $PasswdDBphpIPAM = $CheckPasswdDBphpIPAM ]; then
+            echo "Password set successfully!";
+            break;
+        fi
+        echo "Passwords do not match, try again!"
+    done
+}
+
+
 update_upgrade_autoremove(){
     echo "$hash"
     echo "Update and Upgrade Operational System"
@@ -85,13 +107,16 @@ install_requirements(){
 download_phpIPAM(){
     echo "$number_sign"
     echo "Download phpIPAM from github repository"
-    git clone --recursive https://github.com/phpipam/phpipam.git /var/www/html/phpipam
+    git clone --recursive https://github.com/phpipam/phpipam.git /var/www/phpipam
+    cd /var/www/phpipam
+    git checkout 1.5
+    git submodule update --init --recursive
 }
 
 copy_phpIPAM_configurations(){
     echo "$number_sign"
     echo "Copy phpIPAM configurations"
-    cd /var/www/html/phpipam
+    cd /var/www/phpipam
     cp config.dist.php config.php
     # You can change phpipam default settings
     #vim config.php
@@ -105,9 +130,9 @@ configure_mariaDB(){
     #mysql_secure_installation
     # Automating `mysql_secure_installation`
     # Setting the database root password
-    #mysql -e "SET PASSWORD FOR 'root'@localhost = PASSWORD("phpipamadmin");"
+    #mysql -e "SET PASSWORD FOR 'root'@localhost = PASSWORD("$PasswdDBphpIPAM");"
     # Make sure that NOBODY can access the server without a password
-    #mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'phpipamadmin';"
+    #mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$PasswdDBphpIPAM';"
     # Delete anonymous users
     #mysql -e "DELETE FROM mysql.user WHERE User='';"
     # disallow remote login for root
@@ -119,8 +144,8 @@ configure_mariaDB(){
     #mysql -e "FLUSH PRIVILEGES;"
     # EOF(end-of-file) IS ALTERNATIVE METHOD, MORE VERBOSE
     #mysql --user=root << EOF
-    #    SET PASSWORD FOR 'root'@localhost = PASSWORD("phpipamadmin");
-    #    ALTER USER 'root'@'localhost' IDENTIFIED BY 'phpipamadmin';
+    #    SET PASSWORD FOR 'root'@localhost = PASSWORD("$PasswdDBphpIPAM");
+    #    ALTER USER 'root'@'localhost' IDENTIFIED BY '$PasswdDBphpIPAM';
     #    DELETE FROM mysql.user WHERE User='';
     #    DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
     #    DROP DATABASE IF EXISTS test;
@@ -133,12 +158,12 @@ create_database(){
     echo "$number_sign"
     echo "Create DATABASE from phpIPAM"
     mysql -e "CREATE DATABASE phpipam;"
-    mysql -e "GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY 'phpipamadmin';"
+    mysql -e "GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY '$PasswdDBphpIPAM';"
     mysql -e "FLUSH PRIVILEGES;"
     # EOF(end-of-file) IS ALTERNATIVE METHOD
     #mysql --user=root << EOF
     #    CREATE DATABASE phpipam;
-    #    GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY 'phpipamadmin';
+    #    GRANT ALL ON phpipam.* TO phpipam@localhost IDENTIFIED BY '$PasswdDBphpIPAM';
     #    FLUSH PRIVILEGES;
     #EOF
 }
@@ -153,10 +178,10 @@ configure_apache(){
     echo '
     <VirtualHost *:80>
         ServerAdmin webmaster@local.com
-        DocumentRoot "/var/www/html/phpipam"
+        DocumentRoot "/var/www/phpipam"
         ServerName ipam.local.com
         ServerAlias www.ipam.local.com
-        <Directory "/var/www/html/phpipam">
+        <Directory "/var/www/phpipam">
             Options Indexes FollowSymLinks
             AllowOverride All
             Require all granted
@@ -166,7 +191,7 @@ configure_apache(){
     </VirtualHost>
     ' > /etc/apache2/sites-enabled/phpipam.conf
     # replace phpipam.local.com with your FQDN!
-    chown -R www-data:www-data /var/www/html/
+    chown -R www-data:www-data /var/www/
 
     echo "Check syntax of the file"
     sudo apachectl -t
@@ -182,9 +207,9 @@ import_SCHEMAsql(){
     echo "$number_sign"
     echo "Import SCHEMA.sql"
     # fixes the error before import SCHEMA.sql to DATABASE
-    sed -i '3 iSET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;' /var/www/html/phpipam/db/SCHEMA.sql
+    sed -i '3 iSET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;' /var/www/phpipam/db/SCHEMA.sql
     # if the above line is not added to the SCHEMA.sql file, the import will fail!
-    mysql -u root -p"phpipamadmin" phpipam < /var/www/html/phpipam/db/SCHEMA.sql
+    mysql -u root -p"$PasswdDBphpIPAM" phpipam < /var/www/phpipam/db/SCHEMA.sql
 }
 
 user_instruction(){
