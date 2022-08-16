@@ -2,16 +2,13 @@
 
 # =============================================================
 # Script created date: 10 ago 2022
-# Created by: Henrique Silva (henriquesilvadotcontact@gmail.com
+# Created by: Henrique Silva (henrique@voipforall.com.br
 # Name: installphpipam
 # Description: script to install phpIPAM on server
 # License: GPL-3.0
 # Remote repository 1: https://github.com/rick0x00/installphpipam
 # Remote repository 2: https://gitlab.com/rick0x00/installphpipam
 
-# Tested Servers:
-# # Operational Sistem  - Date 
-# # Debian-11.2.0-amd64 - 12 ago 2022
 # =============================================================
 
 underline="________________________________________________________________";
@@ -19,29 +16,28 @@ equal="================================================================";
 number_sign="################################################################";
 plus="++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
-bigtext_install='                  _           _        _ _ 
+bigtext_install='                  _           _        _ _
                  (_)_ __  ___| |_ __ _| | |
                  | |  _ \/ __| __/ _  | | |
                  | | | | \__ \ || (_| | | |
                  |_|_| |_|___/\__\__,_|_|_|'
 bigtext_phpipam='                  __          ________  ___    __  ___
            ____  / /_  ____  /  _/ __ \/   |  /  |/  /
-          / __ \/ __ \/ __ \ / // /_/ / /| | / /|_/ / 
-         / /_/ / / / / /_/ // // ____/ ___ |/ /  / /  
-        / .___/_/ /_/ .___/___/_/   /_/  |_/_/  /_/   
+          / __ \/ __ \/ __ \ / // /_/ / /| | / /|_/ /
+         / /_/ / / / / /_/ // // ____/ ___ |/ /  / /
+        / .___/_/ /_/ .___/___/_/   /_/  |_/_/  /_/
        /_/         /_/'
-bigtext_welcome='                   ___                                        
+bigtext_welcome='                   ___
                   /\_ \
- __  __  __     __\//\ \     ___    ___     ___ ___      __   
+ __  __  __     __\//\ \     ___    ___     ___ ___      __
 /\ \/\ \/\ \  / __ \\ \ \   / ___\ / __ \ /  __  __ \  / __ \
-\ \ \_/ \_/ \/\  __/ \_\ \_/\ \__//\ \L\ \/\ \/\ \/\ \/\  __/ 
+\ \ \_/ \_/ \/\  __/ \_\ \_/\ \__//\ \L\ \/\ \/\ \/\ \/\  __/
  \ \___x___/ \ \____\/\____\ \____\ \____/\ \_\ \_\ \_\ \____\
   \/__//__/   \/____/\/____/\/____/\/___/  \/_/\/_/\/_/\/____/'
-bigtext_to='                         _____    
-                        |_   _|__ 
+bigtext_to='                         _____
+                        |_   _|__
                           | |/ _ \
                           |_|\___/'
-
 # =============================================================
 # define functions
 
@@ -147,7 +143,7 @@ update_upgrade_autoremove(){
     echo "$plus"
     apt update
     apt upgrade -y
-    apt autoremove -y 
+    apt autoremove -y
 }
 
 install_requirements(){
@@ -157,11 +153,11 @@ install_requirements(){
     echo "$plus"
     echo "Generic tools"
     echo "$plus"
-    apt install -y sudo vim git 
+    apt install -y sudo vim git
     echo "$plus"
     echo "Apache2"
     echo "$plus"
-    apt install -y apache2 apache2-utils 
+    apt install -y apache2 apache2-utils
     echo "$plus"
     echo "MariaDB and Mysql"
     echo "$plus"
