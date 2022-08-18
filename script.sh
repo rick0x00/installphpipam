@@ -209,7 +209,8 @@ configure_mariaDB(){
     echo "$plus"
     # inside docker check 
     if [ -f /.dockerenv ]; then
-        /etc/init.d/mysql start
+        /etc/init.d/mariadb start
+        #service mariadb start
     else
         systemctl enable --now mariadb
     fi
