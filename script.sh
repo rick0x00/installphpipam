@@ -207,7 +207,12 @@ configure_mariaDB(){
     echo "$number_sign"
     echo "Configure MariaDB Database Server"
     echo "$plus"
-    systemctl enable --now mariadb
+    # inside docker check 
+    if [ -f /.dockerenv ]; then
+        /etc/init.d/mysql start
+    else
+        systemctl enable --now mariadb
+    fi
     #  Enables to improve the security of MariaDB
     #mysql_secure_installation
     # Automating `mysql_secure_installation`
@@ -290,7 +295,15 @@ configure_apache(){
     echo "$plus"
     echo "Restart Apache"
     echo "$plus"
-    systemctl restart apache2
+    # inside docker check 
+    if [ -f /.dockerenv ]; then
+        # start apache 
+        apache2ctl -D FOREGROUND &
+        # restart apache
+        service apache2 restart
+    else
+        systemctl restart apache2
+    fi
 }
 
 import_SCHEMAsql(){
