@@ -41,6 +41,18 @@ bigtext_to='                         _____
 # =============================================================
 # define functions
 
+print_usage() {
+    echo ''
+    echo 'Usage:  script.sh [ OPTION ]'   
+    echo '  OPTION: (optional)'
+    echo '  -h          print this help'
+    echo '  -n          No interactive'
+    echo '  -p [=pass]  define password. required -n option'
+    echo '  -i          Import SCHEMA.sql. required -n option'
+    echo ''
+}
+
+
 processing_error() {
     echo "$equal"
     echo ""
@@ -318,13 +330,60 @@ farewell(){
 
 # =============================================================
 
+# start read CLI Arguments
+while [ -n "$1" ]; do
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+        print_usage
+        exit 0
+    elif [ "$1" = "-n" ] || [ "$1" = "-N" ]; then
+        shift
+        bypass_interaction="y"
+        bypass_request_PasswdDBphpIPAM="y"
+        PasswdDBphpIPAM="phpipamadmin";
+        bypass_Request_Import_SCHEMAsql="y"
+        ChoiceImportSCHEMAsql="n"
+        
+    elif [ "$1" = "-p" ] || [ "$1" = "-P" ]; then
+        shift
+        if [ "$bypass_interaction" = "y" ]; then
+            bypass_request_PasswdDBphpIPAM="y"
+            PasswdDBphpIPAM="$1";
+        else
+            print_err "please set -n on cli script.sh execution"
+            exit 1
+        fi       
+    elif [ "$1" = "-i" ] || [ "$1" = "-I" ]; then
+        shift
+        if [ "$bypass_interaction" = "y" ]; then
+            bypass_Request_Import_SCHEMAsql="y"
+            ChoiceImportSCHEMAsql="Y"
+        else
+            print_err "please set -i on cli script.sh execution"
+            exit 1
+        fi  
+    fi
+    shift
+done
+# end read CLI Arguments
+
 presentation;
 
 root_check;
 
-request_PasswdDBphpIPAM;
-
-Request_Import_SCHEMAsql;
+if [ "$bypass_interaction" = "y" ]; then
+    echo "Bypass Interaction"
+else
+    if [ "$bypass_request_PasswdDBphpIPAM" = "y" ]; then
+        echo "Bypass Request Password"
+    else
+        request_PasswdDBphpIPAM;
+    fi
+    if [ "$bypass_Request_Import_SCHEMAsql" = "y" ]; then
+        echo "Bypass Request Password"
+    else
+        Request_Import_SCHEMAsql;
+    fi
+fi 
 
 update_upgrade_autoremove;
 
